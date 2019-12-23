@@ -1,7 +1,6 @@
 import { fromEvent } from 'rxjs';
-import { map, tap, withLatestFrom, ignoreElements } from 'rxjs/operators';
-import { setPoint, SET_POINT } from '../actions';
-import { ofType } from 'redux-observable';
+import { map } from 'rxjs/operators';
+import { setPoint } from '../actions';
 
 export const catchPoint = () =>
   fromEvent(document, 'mousemove').pipe(
