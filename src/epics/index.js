@@ -1,4 +1,4 @@
 import { combineEpics } from 'redux-observable';
-import { catchPoint, testPoint } from './points';
+import { catchPoint } from './points';
 
-export default combineEpics(catchPoint, testPoint);
+export default combineEpics(catchPoint);

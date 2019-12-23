@@ -7,11 +7,3 @@ export const catchPoint = () =>
   fromEvent(document, 'mousemove').pipe(
     map(({ clientX, clientY }) => setPoint({ x: clientX, y: clientY }))
   );
-
-export const testPoint = (action$, state$) =>
-  action$.pipe(
-    ofType(SET_POINT),
-    withLatestFrom(state$),
-    tap(([a, s]) => console.log(a, s)),
-    ignoreElements()
-  );
