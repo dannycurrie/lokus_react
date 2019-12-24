@@ -1,18 +1,18 @@
 import { connect } from 'react-redux';
 import React from 'react';
 import { getCurrentPoint } from '../../selectors';
-
-const calculateDistance = (pointA, pointB) => {
-  console.log('pointA, pointB: ', pointA, pointB);
-  return (pointA.x = pointB.x) + (pointA.y = pointB.y);
-};
+import { calculateDistance, getVolume } from '../../utils';
 
 function SoundPoint({ x, y, point }) {
-  const volume = calculateDistance({ x, y }, point);
-  console.log('volume: ', volume);
-
+  const distanceToPoint = calculateDistance({ x, y }, point);
   return (
-    <circle cx={x} cy={y} r="20" stroke="red" fill="red" strokeWidth="5" />
+    <circle
+      cx={x}
+      cy={y}
+      r={getVolume(distanceToPoint)}
+      fill="red"
+      strokeWidth="5"
+    />
   );
 }
 

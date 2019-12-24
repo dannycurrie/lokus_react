@@ -1,0 +1,33 @@
+import * as R from 'ramda';
+
+/**
+ * Caclulates the distance between 2 points: A and B
+ *
+ * @param {x: number, y: number} pointA
+ * @param {x: number, y: number} pointB
+ * @returns number
+ */
+export const calculateDistance = (pointA, pointB) => {
+  const a = pointA.x - pointB.x;
+  const b = pointA.y - pointB.y;
+  return Math.sqrt(a * a + b * b);
+};
+
+const MAX_VOLUME = 50;
+const MAX_DISTANCE = 1000;
+
+/**
+ * Given a distance value, returns a corresponding
+ * volume value within the defined volumne range
+ *
+ * The smaller the distance, the higher the volume.
+ *
+ * @see MAX_DISTANCE
+ * @see MAX_VOLUME
+ *
+ * @param {number} value
+ */
+export const getVolume = R.pipe(
+  distance => ((MAX_DISTANCE - distance) / MAX_DISTANCE) * MAX_VOLUME,
+  Math.abs
+);
