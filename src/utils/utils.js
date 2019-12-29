@@ -17,8 +17,9 @@ const MAX_VOLUME = 50;
 const MAX_DISTANCE = 1000;
 
 /**
- * Given a distance value, returns a corresponding
- * volume value within the defined volumne range
+ * Given a distance value,
+ * returns a corresponding volume value
+ * within the volumne range defined by `MAX_VOLUME`
  *
  * The smaller the distance, the higher the volume.
  *
@@ -26,6 +27,7 @@ const MAX_DISTANCE = 1000;
  * @see MAX_VOLUME
  *
  * @param {number} value
+ * @returns {number} volume
  */
 export const getVolume = R.pipe(
   distance => ((MAX_DISTANCE - distance) / MAX_DISTANCE) * MAX_VOLUME,
