@@ -22,6 +22,23 @@ const setVolume = gainNode =>
   newVolume => (gainNode.gain.value = newVolume / 10);
 
 /**
+ * Creates a function which returns the passed
+ * analyser node's frequency data to a callback fn
+ * @param {*} analyserNode
+ */
+const getFrequencyData = analyserNode =>
+  /**
+   * Given a callback fn, will call the fn with the frequency
+   * data of the bound analysre node
+   */
+  callback => {
+    const bufferLength = analyserNode.frequencyBinCount;
+    const dataArray = new Uint8Array(bufferLength);
+    analyserNode.getByteFrequencyData(dataArray);
+    callback(Array.from(dataArray));
+  };
+
+/**
  * Request audio at the given url and
  * resolve with the given fn onload
  *
@@ -46,12 +63,18 @@ const getRequest = (audioURL, resolve) => {
       audioBufferSource.connect(gainNode);
       gainNode.connect(context.destination);
 
+      // construct and connect analyser node to get freqency data
+      const analyser = context.createAnalyser();
+      audioBufferSource.connect(analyser);
+      analyser.connect(context.destination);
+
       audioBufferSource.start();
 
       // resolve audio object with api
       return resolve({
         url: audioURL,
-        setVolume: setVolume(gainNode)
+        setVolume: setVolume(gainNode),
+        getFrequencyData: getFrequencyData(analyser)
       });
     });
   };

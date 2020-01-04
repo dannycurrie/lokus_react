@@ -1,3 +1,5 @@
+import normalize from 'normalize-to-range';
+import * as R from 'ramda';
 import { connect } from 'react-redux';
 import React, { useState, useEffect } from 'react';
 import { getCurrentPoint } from '../../selectors';
@@ -18,7 +20,9 @@ function SoundPoint({ x, y, soundId, point }) {
     if (!isPlaying) {
       initAudio();
     } else {
-      if (audio) audio.setVolume(volume);
+      if (audio) {
+        audio.setVolume(volume);
+      }
     }
   }, [audio, isPlaying, soundId, volume]);
 
