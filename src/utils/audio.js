@@ -19,7 +19,7 @@ const setVolume = gainNode =>
   /**
    * Sets the volume value on the bound gain node
    */
-  newVolume => (gainNode.gain.value = newVolume / 10);
+  newVolume => (gainNode.gain.value = newVolume / 20);
 
 /**
  * Creates a function which returns the passed
@@ -33,9 +33,9 @@ const getFrequencyData = analyserNode =>
    */
   callback => {
     const bufferLength = analyserNode.frequencyBinCount;
-    const dataArray = new Uint8Array(bufferLength);
-    analyserNode.getByteFrequencyData(dataArray);
-    callback(Array.from(dataArray));
+    const data = new Uint8Array(bufferLength);
+    analyserNode.getByteFrequencyData(data);
+    callback(Array.from(data));
   };
 
 /**

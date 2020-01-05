@@ -1,30 +1,22 @@
-import normalize from 'normalize-to-range';
-import * as R from 'ramda';
 import { connect } from 'react-redux';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { getCurrentPoint } from '../../selectors';
 import { calculateDistance, getVolume, initialiseAudio } from '../../utils';
 
 function SoundPoint({ x, y, soundId, point }) {
-  const [isPlaying, play] = useState(false);
   const [audio, setAudio] = useState(null);
-
-  const distanceToPoint = calculateDistance({ x, y }, point);
-  const volume = getVolume(distanceToPoint);
-
   useEffect(() => {
-    const initAudio = async () => {
-      initialiseAudio(soundId, setAudio);
-      play(true);
-    };
-    if (!isPlaying) {
-      initAudio();
-    } else {
-      if (audio) {
-        audio.setVolume(volume);
-      }
+    initialiseAudio(soundId, setAudio);
+  }, [soundId]);
+
+  const [volume, setVolume] = useState(0);
+  useEffect(() => {
+    if (audio) {
+      const distanceToPoint = calculateDistance({ x, y }, point);
+      setVolume(getVolume(distanceToPoint));
+      audio.setVolume(volume);
     }
-  }, [audio, isPlaying, soundId, volume]);
+  }, [x, y, audio, point, volume]);
 
   return <circle cx={x} cy={y} r={volume} fill="red" strokeWidth="5" />;
 }
