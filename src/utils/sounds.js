@@ -2,8 +2,11 @@ const soundsPath = '/audio/';
 const soundFormat = 'wav';
 
 export const sounds = {
-  lokus: 'lokus',
-  LR_Pianos: 'LR_Pianos'
+  piano: 'piano',
+  LR_Pianos: 'LR_Pianos',
+  arp: 'arp',
+  synths: 'synths',
+  swells: 'synths'
 };
 
 /**

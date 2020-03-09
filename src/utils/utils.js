@@ -1,4 +1,5 @@
 import * as R from 'ramda';
+import { MAX_DISTANCE, MAX_VOLUME } from '../constants';
 
 /**
  * Caclulates the distance between 2 points: A and B
@@ -12,9 +13,6 @@ export const calculateDistance = (pointA, pointB) => {
   const b = pointA.y - pointB.y;
   return Math.sqrt(a * a + b * b);
 };
-
-const MAX_VOLUME = 50;
-const MAX_DISTANCE = 1000;
 
 /**
  * Given a distance value,

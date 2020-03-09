@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import React, { useState, useEffect, useRef, useCallback } from 'react';
+import React, { useState, useEffect } from 'react';
 import { getCurrentPoint } from '../../selectors';
 import { calculateDistance, getVolume, initialiseAudio } from '../../utils';
 

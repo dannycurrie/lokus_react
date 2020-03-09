@@ -1,4 +1,6 @@
 import { getSoundURL } from './sounds';
+import { MAX_VOLUME } from '../constants';
+import maths from '../utils/maths';
 
 let ctx;
 
@@ -8,6 +10,8 @@ const getAudioContext = () => {
   }
   return ctx;
 };
+
+const getVolumeValue = value => maths.zScores([0, value, MAX_VOLUME])[1];
 
 /**
  * Creates a function to set the volume on the
@@ -19,7 +23,7 @@ const setVolume = gainNode =>
   /**
    * Sets the volume value on the bound gain node
    */
-  newVolume => (gainNode.gain.value = newVolume / 20);
+  newVolume => (gainNode.gain.value = getVolumeValue(newVolume));
 
 /**
  * Creates a function which returns the passed
@@ -55,7 +59,6 @@ const getRequest = (audioURL, resolve) => {
       const audioBuffer = data;
       const audioBufferSource = context.createBufferSource();
       audioBufferSource.buffer = audioBuffer;
-      audioBufferSource.connect(context.destination);
       audioBufferSource.loop = true;
 
       // construct and connect gain node to control volume

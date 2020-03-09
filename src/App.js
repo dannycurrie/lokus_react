@@ -6,8 +6,11 @@ function App() {
   return (
     <div className="App">
       <svg width={1000} height={1000}>
-        <SoundPoint x={500} y={300} soundId="lokus" />
+        <SoundPoint x={200} y={200} soundId="piano" />
         <SoundPoint x={20} y={10} soundId="LR_Pianos" />
+        <SoundPoint x={900} y={900} soundId="arp" />
+        <SoundPoint x={900} y={50} soundId="swells" />
+        <SoundPoint x={30} y={900} soundId="synths" />
       </svg>
     </div>
   );
