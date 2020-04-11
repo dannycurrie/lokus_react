@@ -1,4 +1,5 @@
 import * as R from 'ramda';
+import maths from './maths';
 import { MAX_DISTANCE, MAX_VOLUME } from '../constants';
 
 /**
@@ -28,6 +29,9 @@ export const calculateDistance = (pointA, pointB) => {
  * @returns {number} volume
  */
 export const getVolume = R.pipe(
-  distance => ((MAX_DISTANCE - distance) / MAX_DISTANCE) * MAX_VOLUME,
+  (distance) => ((MAX_DISTANCE - distance) / MAX_DISTANCE) * MAX_VOLUME,
   Math.abs
 );
+
+export const getOpacity = (value) =>
+  1 - maths.zScores([0, value, MAX_DISTANCE])[1];
