@@ -9,6 +9,8 @@ import {
   getOpacity,
 } from '../../utils';
 
+const Point = styled.circle``;
+
 function SoundPoint({ x, y, soundId, point }) {
   const [audio, setAudio] = useState(null);
   const [opacity, setOpacity] = useState(1);
@@ -27,10 +29,10 @@ function SoundPoint({ x, y, soundId, point }) {
   }, [x, y, audio, point, volume]);
 
   return (
-    <circle
+    <Point
       cx={x}
       cy={y}
-      r={volume}
+      r={volume / 2}
       opacity={opacity}
       fill="#87cfb0"
       strokeWidth="5"

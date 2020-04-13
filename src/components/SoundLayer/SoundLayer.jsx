@@ -7,6 +7,7 @@ const Layer = styled.svg`
   top: 0;
   left: 0;
   z-index: 999;
+  filter: blur(5px);
 `;
 
 const getRandomX = () => window.innerWidth * Math.random();
