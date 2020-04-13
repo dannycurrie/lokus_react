@@ -15,6 +15,9 @@ export const calculateDistance = (pointA, pointB) => {
   return Math.sqrt(a * a + b * b);
 };
 
+const normalise = (distance) =>
+  ((MAX_DISTANCE - distance) / MAX_DISTANCE) * MAX_VOLUME;
+
 /**
  * Given a distance value,
  * returns a corresponding volume value
@@ -29,9 +32,12 @@ export const calculateDistance = (pointA, pointB) => {
  * @returns {number} volume
  */
 export const getVolume = R.pipe(
-  (distance) => ((MAX_DISTANCE - distance) / MAX_DISTANCE) * MAX_VOLUME,
-  Math.abs
+  normalise,
+  Math.abs,
+  (value) => maths.zScores([0, value, MAX_VOLUME])[1]
 );
 
 export const getOpacity = (value) =>
   1 - maths.zScores([0, value, MAX_DISTANCE])[1];
+
+export const getPointSize = R.pipe(normalise, Math.abs);

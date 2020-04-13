@@ -7,6 +7,7 @@ import {
   getVolume,
   initialiseAudio,
   getOpacity,
+  getPointSize,
 } from '../../utils';
 
 const Point = styled.circle``;
@@ -14,25 +15,25 @@ const Point = styled.circle``;
 function SoundPoint({ x, y, soundId, point }) {
   const [audio, setAudio] = useState(null);
   const [opacity, setOpacity] = useState(1);
+  const [pointSize, setPointSize] = useState(0);
   useEffect(() => {
-    initialiseAudio(soundId, setAudio);
-  }, [soundId]);
+    setAudio(initialiseAudio(soundId));
+  }, []);
 
-  const [volume, setVolume] = useState(0);
   useEffect(() => {
+    const distanceToPoint = calculateDistance({ x, y }, point);
+    setOpacity(getOpacity(distanceToPoint));
+    setPointSize(getPointSize(distanceToPoint));
     if (audio) {
-      const distanceToPoint = calculateDistance({ x, y }, point);
-      setVolume(getVolume(distanceToPoint));
-      setOpacity(getOpacity(distanceToPoint));
-      audio.setVolume(volume);
+      audio.volume(getVolume(distanceToPoint));
     }
-  }, [x, y, audio, point, volume]);
+  }, [x, y, point]);
 
   return (
     <Point
       cx={x}
       cy={y}
-      r={volume / 2}
+      r={pointSize}
       opacity={opacity}
       fill="#87cfb0"
       strokeWidth="5"
