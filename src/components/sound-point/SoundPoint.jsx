@@ -5,29 +5,22 @@ import { getCurrentPoint } from '../../selectors';
 import {
   calculateDistance,
   getVolume,
-  initialiseAudio,
   getOpacity,
   getPointSize,
 } from '../../utils';
 
 const Point = styled.circle``;
 
-function SoundPoint({ x, y, soundId, point }) {
-  const [audio, setAudio] = useState(null);
+function SoundPoint({ x, y, point, sound }) {
   const [opacity, setOpacity] = useState(1);
   const [pointSize, setPointSize] = useState(0);
-  useEffect(() => {
-    setAudio(initialiseAudio(soundId));
-  }, []);
 
   useEffect(() => {
     const distanceToPoint = calculateDistance({ x, y }, point);
     setOpacity(getOpacity(distanceToPoint));
     setPointSize(getPointSize(distanceToPoint));
-    if (audio) {
-      audio.volume(getVolume(distanceToPoint));
-    }
-  }, [x, y, point]);
+    sound.volume(getVolume(distanceToPoint));
+  }, [x, y, point, sound]);
 
   return (
     <Point

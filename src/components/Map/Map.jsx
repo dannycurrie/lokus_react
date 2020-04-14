@@ -14,10 +14,10 @@ const Filter = styled.div`
   @keyframes blur {
     0%,
     100% {
-      -webkit-filter: blur(1px);
+      -webkit-filter: blur(0.2px);
     }
     50% {
-      -webkit-filter: blur(4px);
+      -webkit-filter: blur(1px);
     }
   }
 `;
@@ -26,7 +26,7 @@ export default () => {
   const [viewport, setViewport] = useState({
     latitude: 37.7577,
     longitude: -122.4376,
-    zoom: 10,
+    zoom: 14,
   });
   useEffect(() => {
     if (navigator.geolocation) {
@@ -47,7 +47,7 @@ export default () => {
         width="100vw"
         height="100vh"
         mapboxApiAccessToken={MAPBOX_TOKEN}
-        mapStyle="mapbox://styles/dannycurrie/ck8vnjky12hx21in074cs3d0f"
+        mapStyle="mapbox://styles/dannycurrie/ck8yw4n3j02mp1int452wx2qz"
         {...viewport}
       />
     </Filter>
