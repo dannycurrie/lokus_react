@@ -1,7 +1,6 @@
-import React, { useEffect } from './node_modules/react';
-import styled from './node_modules/styled-components';
+import React, { useEffect, useRef } from 'react';
+import styled from 'styled-components';
 import glitch from './glitch-effect';
-import { useRef } from './node_modules/react';
 
 const GlitchLayer = styled.canvas`
   z-index: 999;
