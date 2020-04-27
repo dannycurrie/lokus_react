@@ -3,7 +3,6 @@ import styled from 'styled-components';
 import glitch from './glitch-effect';
 
 const GlitchLayer = styled.canvas`
-  z-index: 999;
   position: absolute;
   margin: 0;
   top: 0;

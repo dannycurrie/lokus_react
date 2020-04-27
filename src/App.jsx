@@ -1,7 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
 import Map from './components/map/Map';
-import SoundLayer from './components/sound-layer/SoundLayer';
 import GlitchLayer from './components/glitch/GlitchLayer';
 
 const AppContainer = styled.div`
@@ -11,8 +10,7 @@ const AppContainer = styled.div`
 
 export default () => (
   <AppContainer>
-    <Map />
     <GlitchLayer />
-    <SoundLayer />
+    <Map />
   </AppContainer>
 );

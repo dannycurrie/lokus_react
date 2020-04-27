@@ -6,7 +6,7 @@ export const sounds = {
   LR_Pianos: 'LR_Pianos',
   arp: 'arp',
   synths: 'synths',
-  swells: 'synths'
+  swells: 'swells',
 };
 
 /**
@@ -15,7 +15,7 @@ export const sounds = {
  *
  * @param {string} soundId
  */
-export const getSoundURL = soundId => {
+export const getSoundURL = (soundId) => {
   if (soundId in sounds) {
     return `${soundsPath}${soundId}.${soundFormat}`;
   }

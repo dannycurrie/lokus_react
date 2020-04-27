@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import MapGL from 'react-map-gl';
-import { useState } from 'react';
-import { useEffect } from 'react';
 import styled from 'styled-components';
+import MapSoundPoint from '../sound-point/MapSoundPoint';
+import getSoundPointData from '../../utils/get-sound-points-data';
 
 const MAPBOX_TOKEN =
   'pk.eyJ1IjoiZGFubnljdXJyaWUiLCJhIjoiY2lscWxvMHNpMDA1bHY4bHVzNXdxd2M4YSJ9.vllLON-eJpIoQ20uN18fTg';
@@ -11,6 +11,7 @@ const Filter = styled.div`
   width: 100vw;
   height: 100vh;
   animation: blur 6s ease infinite;
+  opacity: 0.5;
   @keyframes blur {
     0%,
     100% {
@@ -28,16 +29,20 @@ export default () => {
     longitude: -122.4376,
     zoom: 14,
   });
+  const [soundPoints, setSoundPoints] = useState([]);
   useEffect(() => {
     if (navigator.geolocation) {
-      console.log('helo');
-      navigator.geolocation.getCurrentPosition((res) =>
+      navigator.geolocation.getCurrentPosition((res) => {
         setViewport((prev) => ({
           ...prev,
           latitude: res.coords.latitude,
           longitude: res.coords.longitude,
-        }))
-      );
+        }));
+        const points = getSoundPointData();
+        console.log('points: ', points);
+        points.forEach((sp) => sp.sound.play());
+        setSoundPoints(points);
+      });
     }
   }, []);
 
@@ -49,7 +54,15 @@ export default () => {
         mapboxApiAccessToken={MAPBOX_TOKEN}
         mapStyle="mapbox://styles/dannycurrie/ck8yw4n3j02mp1int452wx2qz"
         {...viewport}
-      />
+        dragPan={true}
+        dragRotate={true}
+        scrollZoom={true}
+        onViewportChange={(viewport) => setViewport(viewport)}
+      >
+        {soundPoints.map((data) => (
+          <MapSoundPoint {...data} />
+        ))}
+      </MapGL>
     </Filter>
   );
 };
