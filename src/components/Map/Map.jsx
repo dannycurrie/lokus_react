@@ -3,6 +3,8 @@ import MapGL from 'react-map-gl';
 import styled from 'styled-components';
 import MapSoundPoint from '../sound-point/MapSoundPoint';
 import getSoundPointData from '../../utils/get-sound-points-data';
+import { mapAndSoundsLoaded, setPoint as setPointAction } from '../../actions';
+import { connect } from 'react-redux';
 
 const MAPBOX_TOKEN =
   'pk.eyJ1IjoiZGFubnljdXJyaWUiLCJhIjoiY2lscWxvMHNpMDA1bHY4bHVzNXdxd2M4YSJ9.vllLON-eJpIoQ20uN18fTg';
@@ -23,7 +25,15 @@ const Filter = styled.div`
   }
 `;
 
-export default () => {
+const mdtp = (dispatch) => ({
+  loaded: () => dispatch(mapAndSoundsLoaded()),
+  setPoint: (e) => dispatch(setPointAction(e.lngLat)),
+});
+
+export default connect(
+  null,
+  mdtp
+)(({ loaded, setPoint }) => {
   const [viewport, setViewport] = useState({
     latitude: 37.7577,
     longitude: -122.4376,
@@ -42,6 +52,8 @@ export default () => {
         console.log('points: ', points);
         points.forEach((sp) => sp.sound.play());
         setSoundPoints(points);
+        // dispatch action to say app has loaded
+        loaded();
       });
     }
   }, []);
@@ -57,7 +69,8 @@ export default () => {
         dragPan={true}
         dragRotate={true}
         scrollZoom={true}
-        onViewportChange={(viewport) => setViewport(viewport)}
+        onViewportChange={setViewport}
+        onMouseMove={setPoint}
       >
         {soundPoints.map((data) => (
           <MapSoundPoint {...data} />
@@ -65,4 +78,4 @@ export default () => {
       </MapGL>
     </Filter>
   );
-};
+});

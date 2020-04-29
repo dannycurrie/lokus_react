@@ -1,4 +1,4 @@
 import { combineEpics } from 'redux-observable';
-import { catchPoint } from './points';
+import { catchPoint, mouseMoveListener } from './points';
 
-export default combineEpics(catchPoint);
+export default combineEpics(catchPoint, mouseMoveListener);
