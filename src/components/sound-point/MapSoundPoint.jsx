@@ -12,14 +12,14 @@ function SoundPoint({ lat, long, sound, point }) {
 
   return (
     <Marker key={`marker-${sound.src}`} longitude={long} latitude={lat}>
-      <svg>
+      <svg width={100} height={100}>
         <Point
           r={pointSize}
           opacity={opacity}
           fill="#87cfb0"
           strokeWidth="5"
-          cx={20}
-          cy={20}
+          cx={50}
+          cy={50}
         />
       </svg>
     </Marker>

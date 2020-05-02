@@ -1,28 +1,31 @@
 import * as R from 'ramda';
 import maths from './maths';
-import { MAX_DISTANCE, MAX_VOLUME } from '../constants';
+import {
+  RADIUS_OF_EARTH_KM,
+  MAX_VOLUME,
+  MIN_SIZE,
+  MAX_SIZE,
+} from '../constants';
 
-const deg2rad = (deg) => {
+const degreesToRadius = (deg) => {
   return deg * (Math.PI / 180);
 };
 
 export const calculateDistance = (lat1, lon1, lat2, lon2) => {
-  var R = 6371; // Radius of the earth in km
-  var dLat = deg2rad(lat2 - lat1); // deg2rad below
-  var dLon = deg2rad(lon2 - lon1);
-  var a =
+  const dLat = degreesToRadius(lat2 - lat1);
+  const dLon = degreesToRadius(lon2 - lon1);
+  const a =
     Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-    Math.cos(deg2rad(lat1)) *
-      Math.cos(deg2rad(lat2)) *
+    Math.cos(degreesToRadius(lat1)) *
+      Math.cos(degreesToRadius(lat2)) *
       Math.sin(dLon / 2) *
       Math.sin(dLon / 2);
-  var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-  var d = R * c; // Distance in km
-  return d;
+  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+  return RADIUS_OF_EARTH_KM * c;
 };
 
 const normalise = (distance) =>
-  ((MAX_DISTANCE - distance) / MAX_DISTANCE) * MAX_VOLUME;
+  ((RADIUS_OF_EARTH_KM - distance) / RADIUS_OF_EARTH_KM) * MAX_VOLUME;
 
 /**
  * Given a distance value,
@@ -44,6 +47,9 @@ export const getVolume = R.pipe(
 );
 
 export const getOpacity = (value) =>
-  1 - maths.zScores([0, value, MAX_DISTANCE])[1];
+  1 - maths.zScores([0, value, RADIUS_OF_EARTH_KM])[1];
 
-export const getPointSize = R.pipe(normalise, Math.abs);
+const valueOrMin = (value) => Math.max(value, MIN_SIZE);
+const valueOrMax = (value) => Math.min(value, MAX_SIZE);
+
+export const getPointSize = R.pipe(normalise, Math.abs, valueOrMin, valueOrMax);

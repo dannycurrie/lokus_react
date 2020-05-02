@@ -6,4 +6,5 @@ export const initialiseAudio = (soundId) =>
     src: [getSoundURL(soundId)],
     html5: true,
     loop: true,
+    volume: 0,
   });
