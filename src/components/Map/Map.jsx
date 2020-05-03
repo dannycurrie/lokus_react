@@ -5,6 +5,7 @@ import MapSoundPoint from '../sound-point/MapSoundPoint';
 import getSoundPointData from '../../utils/get-sound-points-data';
 import { mapAndSoundsLoaded, setPoint as setPointAction } from '../../actions';
 import { connect } from 'react-redux';
+import DataView from '../data-view/DataView';
 
 const MAPBOX_TOKEN =
   'pk.eyJ1IjoiZGFubnljdXJyaWUiLCJhIjoiY2lscWxvMHNpMDA1bHY4bHVzNXdxd2M4YSJ9.vllLON-eJpIoQ20uN18fTg';
@@ -37,7 +38,7 @@ export default connect(
   const [viewport, setViewport] = useState({
     latitude: 37.7577,
     longitude: -122.4376,
-    zoom: 6,
+    zoom: 4,
   });
   const [soundPoints, setSoundPoints] = useState([]);
   useEffect(() => {
@@ -49,7 +50,6 @@ export default connect(
           longitude: res.coords.longitude,
         }));
         const points = getSoundPointData();
-        console.log('points: ', points);
         points.forEach((sp) => sp.sound.play());
         setSoundPoints(points);
         // dispatch action to say app has loaded
@@ -57,6 +57,16 @@ export default connect(
       });
     }
   }, []);
+
+  const dataViewProps = soundPoints.reduce(
+    (acc, point) => ({
+      ...acc,
+      [point.key]: point.sound,
+    }),
+    {}
+  );
+  console.log('soundPoints: ', soundPoints);
+  console.log('dataViewProps: ', dataViewProps);
 
   return (
     <Filter>
@@ -75,6 +85,8 @@ export default connect(
         {soundPoints.map((data) => (
           <MapSoundPoint {...data} />
         ))}
+
+        <DataView soundPoints={dataViewProps} />
       </MapGL>
     </Filter>
   );
